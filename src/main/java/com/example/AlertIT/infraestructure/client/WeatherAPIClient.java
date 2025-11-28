@@ -106,4 +106,28 @@ public class WeatherAPIClient {
                 location.getCountry()
         );
     }
+
+    public WeatherAPIResponse getWeatherWithAlerts(String location) {
+        String url = String.format("%s/forecast.json?key=%s&q=%s&alerts=yes&aqi=no&lang=es&days=1",
+                apiUrl, apiKey, location);
+        log.info("Consultando alertas meteorológicas para: {}", location);
+
+        try {
+            WeatherAPIResponse response = restTemplate.getForObject(url, WeatherAPIResponse.class);
+
+            if (response != null) {
+                log.debug("Respuesta con alertas recibida para: {}", location);
+                return response;
+            }
+
+            throw new RuntimeException("No se pudo obtener datos con alertas para: " + location);
+
+        } catch (HttpClientErrorException e) {
+            log.error("Error al consultar alertas: {} - {}", e.getStatusCode(), e.getMessage());
+            throw new RuntimeException("Error al obtener alertas: " + e.getMessage());
+        } catch (Exception e) {
+            log.error("Error inesperado al consultar alertas: {}", e.getMessage());
+            throw new RuntimeException("Error inesperado al consultar alertas");
+        }
+    }
 }

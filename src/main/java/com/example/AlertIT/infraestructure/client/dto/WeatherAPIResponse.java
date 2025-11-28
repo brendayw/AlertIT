@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -18,4 +17,20 @@ public class WeatherAPIResponse {
 
     @JsonProperty("alerts")
     private WeatherAlerts alerts;
+
+
+    public boolean hasAlerts() {
+        return alerts != null && alerts.getAlert() != null && !alerts.getAlert().isEmpty();
+    }
+
+    public String getAlertMessage() {
+        if (hasAlerts()) {
+            WeatherAlertItem firstAlert = alerts.getAlert().get(0);
+            return String.format("[%s] %s: %s",
+                    firstAlert.getSeverity(),
+                    firstAlert.getEffective(),
+                    firstAlert.getHeadline());
+        }
+        return "No hay alertas activas";
+    }
 }
