@@ -1,6 +1,6 @@
 package com.example.AlertIT.presentation.rest;
 
-import com.example.AlertIT.application.services.AlertService;
+import com.example.AlertIT.application.services.AlertNotificationService;
 import com.example.AlertIT.domain.models.GeocodingData;
 import com.example.AlertIT.domain.models.WeatherData;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +14,7 @@ import java.util.Map;
 @RequestMapping("/api/v1/weather")
 public class WeatherController {
 
-    private final AlertService alertService;
+    private final AlertNotificationService alertService;
 
     @GetMapping("/current")
     public ResponseEntity<WeatherData> getCurrentWeather(@RequestParam String location) {

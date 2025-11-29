@@ -6,8 +6,8 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class Alert {
-    private final String nivel;
-    private final String tipo;
+    private AlertLevel nivel;
+    private AlertType tipo;
     private final String descripcion;
     private final String recomendacion;
 }
