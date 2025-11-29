@@ -92,6 +92,7 @@ public class WeatherAPIClient {
                 current.getTempC(),
                 current.getCondition().getText(),
                 location.getName(),
+                location.getRegion(),
                 current.getHumidity(),
                 current.getWindKph()
         );
@@ -103,6 +104,7 @@ public class WeatherAPIClient {
                 location.getLon(),
                 String.format("%s, %s", location.getName(), location.getCountry()),
                 location.getName(),
+                location.getRegion(),
                 location.getCountry()
         );
     }

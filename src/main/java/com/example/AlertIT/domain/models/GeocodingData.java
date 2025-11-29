@@ -10,6 +10,7 @@ public class GeocodingData {
     private Double longitude;
     private String formattedAddress;
     private String city;
+    private String region;
     private String country;
 
     //methods

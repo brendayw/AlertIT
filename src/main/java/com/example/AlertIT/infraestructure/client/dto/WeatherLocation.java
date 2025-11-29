@@ -11,6 +11,9 @@ public class WeatherLocation {
     @JsonProperty("name")
     private String name;
 
+    @JsonProperty("region")
+    private String region;
+
     @JsonProperty("country")
     private String country;
 

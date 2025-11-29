@@ -9,6 +9,7 @@ public class WeatherData {
     private Double temperature;
     private String condition;
     private String location;
+    private String region;
     private Double humidity;
     private Double windSpeed;
 
