@@ -19,7 +19,7 @@ public class WeatherApiAdapter implements WeatherService {
     }
 
     @Override
-    public GeocodingData getGeocodingData(String address) {
-        return weatherAPIClient.getGeocodingData(address);
+    public GeocodingData getGeocodingData(String location) {
+        return weatherAPIClient.getGeocodingData(location);
     }
 }

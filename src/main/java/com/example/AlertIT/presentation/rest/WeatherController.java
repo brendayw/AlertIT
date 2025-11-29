@@ -27,9 +27,9 @@ public class WeatherController {
     }
 
     @GetMapping("/geocoding")
-    public ResponseEntity<GeocodingData> getGeocoding(@RequestParam String address) {
+    public ResponseEntity<GeocodingData> getGeocoding(@RequestParam String location) {
         try {
-            GeocodingData geocoding = alertService.getCoordinatesForAddress(address);
+            GeocodingData geocoding = alertService.getCoordinatesForAddress(location);
             return ResponseEntity.ok(geocoding);
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
@@ -37,9 +37,9 @@ public class WeatherController {
     }
 
     @GetMapping("/alert")
-    public ResponseEntity<Map<String, Object>> processAlert(@RequestParam String address) {
+    public ResponseEntity<Map<String, Object>> processAlert(@RequestParam String location) {
         try {
-            Map<String, Object> alertResult = alertService.processLocationAlert(address);
+            Map<String, Object> alertResult = alertService.processLocationAlert(location);
             return ResponseEntity.ok(alertResult);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(Map.of(

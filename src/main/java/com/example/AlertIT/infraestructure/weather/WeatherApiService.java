@@ -29,9 +29,9 @@ public class WeatherApiService {
         return response.getBody();
     }
 
-    public GeocodingData getGeocodingData(String address) {
+    public GeocodingData getGeocodingData(String location) {
         String url = String.format("%s/search.json?key=%s&q=%s",
-                apiUrl, apiKey, address);
+                apiUrl, apiKey, location);
 
         ResponseEntity<GeocodingData> response = restTemplate.getForEntity(url, GeocodingData.class);
         return response.getBody();

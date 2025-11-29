@@ -23,14 +23,14 @@ public class AlertNotificationService {
     private final WeatherService weatherService;
     private final AlertEvaluator alertEvaluator;
 
-    public Map<String, Object> processLocationAlert(String address) {
-        log.info("PROCESANDO ALERTA METEOROLÓGICA para: {}", address);
+    public Map<String, Object> processLocationAlert(String location) {
+        log.info("PROCESANDO ALERTA METEOROLÓGICA para: {}", location);
 
         Map<String, Object> result = new HashMap<>();
 
         try {
             // 1. Geocoding
-            GeocodingData geocodingData = weatherService.getGeocodingData(address);
+            GeocodingData geocodingData = weatherService.getGeocodingData(location);
             result.put("geocoding", geocodingData);
 
             if (!geocodingData.isValidLocation()) {
@@ -74,7 +74,7 @@ public class AlertNotificationService {
         return weatherService.getCurrentWeather(location);
     }
 
-    public GeocodingData getCoordinatesForAddress(String address) {
-        return weatherService.getGeocodingData(address);
+    public GeocodingData getCoordinatesForAddress(String location) {
+        return weatherService.getGeocodingData(location);
     }
 }
