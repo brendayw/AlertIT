@@ -30,7 +30,9 @@ public class WeatherAlertScheduler {
     private String monitorLocation;
 
     // Cada 6 horas
-    @Scheduled(fixedRate = 6 * 60 * 60 * 1000)
+    //@Scheduled(fixedRate = 6 * 60 * 60 * 1000)
+    //cada 1 min
+    @Scheduled(fixedRate = 60 * 1000)
     public void checkAlerts() {
         try {
             log.info("⏰ Ejecutando verificación programada para {}", monitorLocation);
