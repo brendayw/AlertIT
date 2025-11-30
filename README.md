@@ -16,6 +16,7 @@ AlertIT es un servicio de notificaciones meteorológicas que detecta condiciones
 - WebClient 
 - Spring Scheduler 
 - Twilio WhatsApp API 
+- Springdoc OpenAPI (Swagger)
 - Docker (pendiente)
 - Testing automatizado (pendiente)
 

@@ -21,7 +21,6 @@ public class TwilioNotificationService {
             String cleanFrom = cleanPhoneNumber(from);
             String cleanTo = cleanPhoneNumber(to);
 
-            // Asegurar prefijo whatsapp:
             String fromNumber = cleanFrom.startsWith("whatsapp:") ? cleanFrom : "whatsapp:" + cleanFrom;
             String toNumber = cleanTo.startsWith("whatsapp:") ? cleanTo : "whatsapp:" + cleanTo;
 

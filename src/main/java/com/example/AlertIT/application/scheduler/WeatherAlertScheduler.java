@@ -6,7 +6,6 @@ import com.example.AlertIT.domain.models.AlertLevel;
 import com.example.AlertIT.domain.models.WeatherData;
 import com.example.AlertIT.domain.ports.WeatherService;
 import com.example.AlertIT.domain.services.AlertEvaluator;
-import com.example.AlertIT.presentation.dto.AlertItemResponse;
 import com.example.AlertIT.presentation.dto.AlertResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +14,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -29,13 +29,11 @@ public class WeatherAlertScheduler {
     @Value("${weather.monitor.location:Bahia Blanca}")
     private String monitorLocation;
 
-    // Cada 6 horas
-    //@Scheduled(fixedRate = 6 * 60 * 60 * 1000)
-    //cada 1 min
-    @Scheduled(fixedRate = 60 * 1000)
+    //cada 5 min
+    @Scheduled(fixedRate = 5* 60 * 1000)
     public void checkAlerts() {
         try {
-            log.info("⏰ Ejecutando verificación programada para {}", monitorLocation);
+            log.info("Ejecutando verificación programada para {}", monitorLocation);
 
             WeatherData weather = weatherService.getCurrentWeather(monitorLocation);
             List<Alert> alerts = alertEvaluator.evaluateWeatherAlerts(weather);
@@ -45,7 +43,6 @@ public class WeatherAlertScheduler {
                 log.info("Sin alertas meteorológicas para {}", monitorLocation);
                 return;
             }
-
             log.warn("⚠️ ALERTA detectada: {} para {}", overall, monitorLocation);
 
             // Crear el DTO directamente desde el dominio
@@ -56,21 +53,22 @@ public class WeatherAlertScheduler {
                     alertEvaluator.generateRecommendations(alerts)
             );
 
-            // Formatear mensaje para WhatsApp
             StringBuilder message = new StringBuilder();
             message.append("🚨 *ALERTA METEOROLÓGICA* 🚨\n\n");
-            message.append("*Nivel:* ").append(alertResponse.nivelAlerta()).append("\n");
-            message.append("*Resumen:* ").append(alertResponse.resumen()).append("\n\n");
-            message.append("*Alertas activas:*\n");
-            for (AlertItemResponse a : alertResponse.alertasActivas()) {
-                message.append("- [").append(a.nivel()).append("] ")
-                        .append(a.tipo()).append(": ")
-                        .append(a.descripcion()).append("\n");
-            }
-            message.append("\n*Recomendaciones:*\n");
+
+            alertResponse.alertasActivas().forEach(a -> {
+                message.append(a.tipo())
+                        .append(": ")
+                        .append(a.descripcion())
+                        .append("\n");
+            });
+
+            message.append("\nRecomendaciones:\n");
             alertResponse.recomendaciones().forEach(r -> message.append("• ").append(r).append("\n"));
-            message.append("\n🕒 ").append(LocalDateTime.now()).append("\n");
-            message.append("Fuente: Sistema de Alertas Interno");
+
+            message.append("\n🕒 ").append(LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))).append("\n");
+
+            message.append("Fuente: Sistema de Alertas SMN – Umbrales para la zona de Bahía Blanca");
 
             twilioNotificationService.send(message.toString());
 
