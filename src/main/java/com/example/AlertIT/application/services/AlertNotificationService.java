@@ -1,10 +1,11 @@
 package com.example.AlertIT.application.services;
 
 import com.example.AlertIT.domain.models.Alert;
-import com.example.AlertIT.domain.models.AlertLevel;
+import com.example.AlertIT.domain.enums.AlertLevel;
 import com.example.AlertIT.domain.models.GeocodingData;
 import com.example.AlertIT.domain.models.WeatherData;
-import com.example.AlertIT.domain.ports.WeatherService;
+import com.example.AlertIT.domain.ports.outbound.NotificationSender;
+import com.example.AlertIT.domain.ports.outbound.WeatherService;
 import com.example.AlertIT.domain.services.AlertEvaluator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +21,7 @@ import java.util.Map;
 @Slf4j
 public class AlertNotificationService {
 
+    private final NotificationSender notificationSender;
     private final WeatherService weatherService;
     private final AlertEvaluator alertEvaluator;
 
@@ -76,5 +78,9 @@ public class AlertNotificationService {
 
     public GeocodingData getCoordinatesForAddress(String location) {
         return weatherService.getGeocodingData(location);
+    }
+
+    public void sendAlert(String message) {
+        notificationSender.send(message);
     }
 }

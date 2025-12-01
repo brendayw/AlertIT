@@ -1,4 +1,4 @@
-package com.example.AlertIT.domain.models;
+package com.example.AlertIT.domain.enums;
 
 public enum AlertLevel {
     VERDE(0),       // Sin alerta

@@ -1,10 +1,9 @@
 package com.example.AlertIT.domain.services;
 
 import com.example.AlertIT.domain.models.Alert;
-import com.example.AlertIT.domain.models.AlertLevel;
-import com.example.AlertIT.domain.models.AlertType;
+import com.example.AlertIT.domain.enums.AlertLevel;
+import com.example.AlertIT.domain.enums.AlertType;
 import com.example.AlertIT.domain.models.WeatherData;
-import com.example.AlertIT.domain.ports.WeatherAlertEvaluator;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

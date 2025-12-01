@@ -1,4 +1,4 @@
-package com.example.AlertIT.infraestructure.client.dto;
+package com.example.AlertIT.infraestructure.adapters.outbound.weather.client.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;

@@ -1,5 +1,7 @@
 package com.example.AlertIT.domain.models;
 
+import com.example.AlertIT.domain.enums.AlertLevel;
+import com.example.AlertIT.domain.enums.AlertType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

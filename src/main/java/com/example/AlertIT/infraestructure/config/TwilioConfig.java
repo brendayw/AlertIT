@@ -27,7 +27,7 @@ public class TwilioConfig {
         try {
             Twilio.init(accountSid, authToken);
 
-            log.info("wilio inicializado correctamente");
+            log.info("Twilio inicializado correctamente");
             log.info("Account SID: {}...", accountSid.substring(0, 10));
             log.info("Número FROM: [{}]", cleanPhoneNumber(from));
             log.info("Número TO: [{}]", cleanPhoneNumber(to));

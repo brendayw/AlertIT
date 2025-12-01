@@ -1,6 +1,5 @@
 package com.example.AlertIT.infraestructure.config;
 
-import com.example.AlertIT.infraestructure.weather.WeatherApiService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,10 +17,5 @@ public class WeatherConfig {
     @Bean
     public RestTemplate restTemplate() {
         return new RestTemplate();
-    }
-
-    @Bean
-    public WeatherApiService weatherApiService(RestTemplate restTemplate) {
-        return new WeatherApiService(restTemplate, apiUrl, apiKey);
     }
 }

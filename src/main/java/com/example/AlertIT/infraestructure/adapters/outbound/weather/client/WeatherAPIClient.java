@@ -1,10 +1,10 @@
-package com.example.AlertIT.infraestructure.client;
+package com.example.AlertIT.infraestructure.adapters.outbound.weather.client;
 
 import com.example.AlertIT.domain.models.GeocodingData;
 import com.example.AlertIT.domain.models.WeatherData;
-import com.example.AlertIT.infraestructure.client.dto.WeatherAPIResponse;
-import com.example.AlertIT.infraestructure.client.dto.WeatherCurrent;
-import com.example.AlertIT.infraestructure.client.dto.WeatherLocation;
+import com.example.AlertIT.infraestructure.adapters.outbound.weather.client.dto.WeatherAPIResponse;
+import com.example.AlertIT.infraestructure.adapters.outbound.weather.client.dto.WeatherCurrent;
+import com.example.AlertIT.infraestructure.adapters.outbound.weather.client.dto.WeatherLocation;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

@@ -1,5 +1,6 @@
-package com.example.AlertIT.application.services;
+package com.example.AlertIT.infraestructure.adapters.outbound.notification;
 
+import com.example.AlertIT.domain.ports.outbound.NotificationSender;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
 import lombok.extern.slf4j.Slf4j;
@@ -8,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
-public class TwilioNotificationService {
+public class TwilioNotificationAdapter implements NotificationSender {
 
     @Value("${twilio.whatsapp.from}")
     private String from;

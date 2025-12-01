@@ -1,9 +1,9 @@
-package com.example.AlertIT.infraestructure.adapters;
+package com.example.AlertIT.infraestructure.adapters.outbound.weather;
 
 import com.example.AlertIT.domain.models.GeocodingData;
 import com.example.AlertIT.domain.models.WeatherData;
-import com.example.AlertIT.domain.ports.WeatherService;
-import com.example.AlertIT.infraestructure.client.WeatherAPIClient;
+import com.example.AlertIT.domain.ports.outbound.WeatherService;
+import com.example.AlertIT.infraestructure.adapters.outbound.weather.client.WeatherAPIClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

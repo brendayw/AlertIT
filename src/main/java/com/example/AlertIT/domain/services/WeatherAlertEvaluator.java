@@ -1,4 +1,4 @@
-package com.example.AlertIT.domain.ports;
+package com.example.AlertIT.domain.services;
 
 import com.example.AlertIT.domain.models.Alert;
 import com.example.AlertIT.domain.models.WeatherData;

@@ -1,10 +1,10 @@
 package com.example.AlertIT.application.scheduler;
 
-import com.example.AlertIT.application.services.TwilioNotificationService;
+import com.example.AlertIT.infraestructure.adapters.outbound.notification.TwilioNotificationAdapter;
 import com.example.AlertIT.domain.models.Alert;
-import com.example.AlertIT.domain.models.AlertLevel;
+import com.example.AlertIT.domain.enums.AlertLevel;
 import com.example.AlertIT.domain.models.WeatherData;
-import com.example.AlertIT.domain.ports.WeatherService;
+import com.example.AlertIT.domain.ports.outbound.WeatherService;
 import com.example.AlertIT.domain.services.AlertEvaluator;
 import com.example.AlertIT.presentation.dto.AlertResponse;
 import lombok.RequiredArgsConstructor;
@@ -24,13 +24,13 @@ public class WeatherAlertScheduler {
 
     private final WeatherService weatherService;
     private final AlertEvaluator alertEvaluator;
-    private final TwilioNotificationService twilioNotificationService;
+    private final TwilioNotificationAdapter twilioNotificationService;
 
     @Value("${weather.monitor.location:Bahia Blanca}")
     private String monitorLocation;
 
-    //cada 5 min
-    @Scheduled(fixedRate = 5* 60 * 1000)
+    //cada 5 minutos
+    @Scheduled(fixedRate = 5 * 60 * 1000)
     public void checkAlerts() {
         try {
             log.info("Ejecutando verificación programada para {}", monitorLocation);
@@ -43,9 +43,9 @@ public class WeatherAlertScheduler {
                 log.info("Sin alertas meteorológicas para {}", monitorLocation);
                 return;
             }
+
             log.warn("⚠️ ALERTA detectada: {} para {}", overall, monitorLocation);
 
-            // Crear el DTO directamente desde el dominio
             AlertResponse alertResponse = AlertResponse.fromDomain(
                     alerts,
                     overall.name(),
@@ -56,18 +56,30 @@ public class WeatherAlertScheduler {
             StringBuilder message = new StringBuilder();
             message.append("🚨 *ALERTA METEOROLÓGICA* 🚨\n\n");
 
+            // Alertas activas con icono de color segun nivel
             alertResponse.alertasActivas().forEach(a -> {
-                message.append(a.tipo())
-                        .append(": ")
+                String icono = getIconForLevel(a.nivel().name());
+
+                message.append(icono)
+                        .append(" *")
+                        .append(a.tipo())        // SIN capitalize
+                        .append(":* ")
                         .append(a.descripcion())
                         .append("\n");
             });
 
-            message.append("\nRecomendaciones:\n");
-            alertResponse.recomendaciones().forEach(r -> message.append("• ").append(r).append("\n"));
+            // Recomendaciones
+            message.append("\n*Recomendaciones:*\n");
+            alertResponse.recomendaciones()
+                    .forEach(r -> message.append("• ").append(r).append("\n"));
 
-            message.append("\n🕒 ").append(LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))).append("\n");
+            // Fecha bonita
+            String fecha = LocalDateTime.now()
+                    .format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
 
+            message.append("\n🕒 ").append(fecha).append("\n");
+
+            // Fuente personalizada
             message.append("Fuente: Sistema de Alertas SMN – Umbrales para la zona de Bahía Blanca");
 
             twilioNotificationService.send(message.toString());
@@ -75,5 +87,16 @@ public class WeatherAlertScheduler {
         } catch (Exception e) {
             log.error("Error durante la verificación de alertas meteorológicas", e);
         }
+    }
+
+    private String getIconForLevel(String nivel) {
+        if (nivel == null) return "";
+        return switch (nivel.toUpperCase()) {
+            case "VERDE" -> "🟢";
+            case "AMARILLO" -> "🟡";
+            case "NARANJA" -> "🟠";
+            case "ROJO" -> "🔴";
+            default -> "⚪";
+        };
     }
 }

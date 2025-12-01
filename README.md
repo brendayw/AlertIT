@@ -90,7 +90,7 @@ No requiere interacción del usuario, pero la ubicación de la consulta se puede
 
 ### 📁 Estructura
 
-Arquitectura **hexagonal (Ports & Adapters):**
+Arquitectura **hexagonal (DDD):**
 
     AlertIT
     │
@@ -98,15 +98,19 @@ Arquitectura **hexagonal (Ports & Adapters):**
     │   ├───scheduler
     │   └───services
     ├───domain
+    │   ├───enums
     │   ├───models
     │   ├───ports
+    │   │   └───outbound
     │   └───services
     ├───infrastructure
     │   ├───adapters
-    │   ├───client
-    │   │   └───dto
+    │   │   └───outbound
+    │   │        ├───notification
+    │   │        └───weather
+    │   │             └───client
+    │   │                  └───dto
     │   ├───config
-    │   └───weather
     └───presentation
         ├───dto
         └───rest
@@ -122,6 +126,7 @@ Todos los endpoints de AlertIT están bajo:
 * GET:
 
           /current?location=Bahia+Blanca
+
 * Parámetro: location (nombre de la ciudad o ubicación)
 * Respuesta: WeatherData con información actual del clima
 
