@@ -1,26 +1,74 @@
-# AlertIT
+# AlertIT — Automated Weather Alert System
 
-AlertIT es un servicio de notificaciones meteorológicas que detecta condiciones de lluvia o viento fuertes y envía alertas automáticamente por WhatsApp. El proyecto demuestra integración con APIs externas, procesamiento en tiempo real y automatización de tareas utilizando un stack moderno y ampliamente demandado en la industria.
+AlertIT es un servicio backend que monitorea condiciones climáticas en tiempo real y envía **alertas automáticas por WhatsApp** cuando se detectan eventos meteorológicos severos, como lluvias intensas o vientos fuertes.
 
-### ✔️ Funcionalidades clave
+El proyecto fue diseñado para simular un **caso real de backend productivo**, priorizando integración con servicios externos, automatización de procesos y una arquitectura mantenible.
 
-* Consumo de APIs externas (WeatherAPI) usando WebClient.
-* Procesamiento de datos y reglas de negocio para evaluar condiciones climáticas.
-* Automatización de tareas mediante Spring Scheduler.
-* Envío de notificaciones por WhatsApp usando Twilio API.
-* Arquitectura pensada para testing automatizado y contenedorización (Docker) — pendiente de implementación.
+---
 
-### 🧩 Tecnologías utilizadas
-- Java 17+ 
-- Spring Boot 
-- WebClient 
-- Spring Scheduler 
-- Twilio WhatsApp API 
+## 🧠 ¿Qué problema resuelve?
+
+Muchas alertas climáticas requieren:
+- Consultar datos externos en tiempo real
+- Procesar reglas de negocio propias
+- Ejecutarse de forma automática, sin intervención del usuario
+- Notificar por canales confiables
+
+AlertIT automatiza todo ese flujo:
+- Consulta datos meteorológicos reales
+- Evalúa condiciones severas según criterios configurables
+- Genera alertas internas
+- Envía notificaciones automáticas por WhatsApp
+
+---
+
+## 🏗️ Decisiones técnicas destacadas
+
+- **Arquitectura hexagonal (DDD)**  
+  Separación clara entre dominio, aplicación e infraestructura para facilitar testing y evolución del sistema.
+
+- **Integración con APIs externas**  
+  Uso de `WebClient` para consumir WeatherAPI y Twilio de forma no bloqueante.
+
+- **Automatización con Spring Scheduler**  
+  El sistema funciona de manera autónoma mediante tareas programadas (polling configurable).
+
+- **Backend orientado a eventos**  
+  No requiere interacción directa del usuario para cumplir su función principal.
+
+---
+
+## ⭐ ¿Por qué este proyecto es relevante?
+
+AlertIT no es una API CRUD tradicional. Está pensado como un backend autónomo que:
+- Consume y coordina múltiples servicios externos
+- Ejecuta lógica de negocio sin intervención del usuario
+- Funciona mediante tareas programadas y eventos
+- Refleja escenarios reales de sistemas productivos
+
+---
+
+## ⚙️ Stack tecnológico
+
+- Java 17+
+- Spring Boot
+- Spring WebClient
+- Spring Scheduler
+- Twilio WhatsApp API
+- WeatherAPI
 - Springdoc OpenAPI (Swagger)
-- Docker (pendiente)
-- Testing automatizado (pendiente)
+- Maven
 
-### ⭐ Requisitos
+📌 **Próximamente:**
+- Testing automatizado (JUnit + Mockito)
+- Contenerización con Docker
+
+---
+
+## 🚀 Cómo ejecutar el proyecto
+
+#### ⭐ Requisitos
+
 - Java 17+
 - Maven 3.8+
 - API Key de WeatherAPI
@@ -28,150 +76,145 @@ AlertIT es un servicio de notificaciones meteorológicas que detecta condiciones
 - Conexión a Internet
 - (Opcional) Docker para contenerización
 
+---
+
 ### 🚀 Instalación
 
-1. Clonar el repositorio
+Clonar el repositorio:
 
-        git clone https://github.com/tu-usuario/AlertIT.git
-        cd AlertIT
+    ```bash
+    git clone https://github.com/tu-usuario/AlertIT.git
+    cd AlertIT
 
-2. Configurar variables de entorno
+Configurar variables de entorno:
 
-        WEATHER_API_KEY=tu_api_key_de_weatherapi
-        TWILIO_ACCOUNT_SID=tu_sid
-        TWILIO_AUTH_TOKEN=tu_auth_token
-        TWILIO_WHATSAPP_FROM=whatsapp:+14155238886
-        WHATSAPP_TO=whatsapp:+54911XXXXXXXX
+    WEATHER_API_KEY=tu_api_key_de_weatherapi
+    TWILIO_ACCOUNT_SID=tu_sid
+    TWILIO_AUTH_TOKEN=tu_auth_token
+    TWILIO_WHATSAPP_FROM=whatsapp:+14155238886
+    WHATSAPP_TO=whatsapp:+54911XXXXXXXX
 
+⚠️ El número TWILIO_WHATSAPP_FROM corresponde al sandbox de Twilio.
+El número WHATSAPP_TO debe estar previamente registrado en el sandbox.
 
-   **Importante:**
-    
-    El número TWILIO_WHATSAPP_FROM corresponde al sandbox de Twilio. 
-    El número WHATSAPP_TO debe estar registrado en tu sandbox.
+Instalar dependencias:
 
-3. Instalar dependencias
+    mvn clean install
 
-        mvn clean install
+Ejecutar la aplicación:
 
-4. Ejecutar la aplicación
-
-         mvn spring-boot:run
+    mvn spring-boot:run
 
 La aplicación iniciará en: http://localhost:8080
 
-### ⚙️ Funcionalidades principales
+---
 
-#### Consumo de API meteorológica (WeatherAPI)
+## ⚙️ Funcionalidades principales
 
-* Obtiene información actualizada del clima (viento, lluvia, tormenta) usando WebClient.
-* Trabaja con datos reales en tiempo real.
+### 🌦️ Consumo de API meteorológica (WeatherAPI)
+- Obtiene información actualizada del clima (viento, lluvia, tormenta) usando WebClient
+- Trabaja con datos reales en tiempo real
 
-#### Evaluación de condiciones climáticas
+### 🧠 Evaluación de condiciones climáticas
+- Procesa los datos recibidos y determina si existen condiciones severas
+- Aplica reglas de negocio configuradas para Bahía Blanca (adaptable a otras ciudades)
 
-* Procesa los datos recibidos y determina si existen condiciones severas según criterios definidos para Bahía Blanca (adaptable a otras ciudades).
-* Demuestra aplicación de lógica de negocio sobre datos externos.
+### 🔔 Generación automática de alertas
+- Genera alertas internas cuando se cumplen las condiciones configuradas
 
-#### Generación automática de alertas
+### 💬 Envío de notificaciones por WhatsApp
+- Integra Twilio para enviar mensajes automáticamente a un número configurado
 
-* Cuando se cumplen las condiciones configuradas, se genera una alerta interna lista para ser enviada al usuario.
+### ⏱️ Ejecución periódica (Scheduler)
+-Proceso automático configurable (actualmente cada 1 minuto; recomendado cada 6 horas)
 
-#### Envío de notificaciones por WhatsApp
+**Flujo completo:**
+- Consulta el clima
+- Analiza los datos
+- Envía notificaciones si es necesario
 
-* Integra Twilio para enviar mensajes automáticamente a un número configurado.
+---
 
-- **Ejecución periódica (Scheduler)**
+## 📁 Estructura del proyecto
 
-* Un proceso automático se ejecuta cada 1 minuto (configurable; recomendado cada 6 horas) para:
-  * Consultar el clima. 
-  * Analizar los datos. 
-  * Enviar notificaciones si es necesario.
-
-No requiere interacción del usuario, pero la ubicación de la consulta se puede cambiar mediante el endpoint correspondiente.
-
-### 📁 Estructura
-
-Arquitectura **hexagonal (DDD):**
+Arquitectura hexagonal (DDD):
 
     AlertIT
     │
-    ├───application
-    │   ├───scheduler
-    │   └───services
-    ├───domain
-    │   ├───enums
-    │   ├───models
-    │   ├───ports
-    │   │   └───outbound
-    │   └───services
-    ├───infrastructure
-    │   ├───adapters
-    │   │   └───outbound
-    │   │        ├───notification
-    │   │        └───weather
-    │   │             └───client
-    │   │                  └───dto
-    │   ├───config
-    └───presentation
-        ├───dto
-        └───rest
+    ├── application
+    │   ├── scheduler
+    │   └── services
+    ├── domain
+    │   ├── enums
+    │   ├── models
+    │   ├── ports
+    │   │   └── outbound
+    │   └── services
+    ├── infrastructure
+    │   ├── adapters
+    │   │   └── outbound
+    │   │       ├── notification
+    │   │       └── weather
+    │   │           └── client
+    │   │               └── dto
+    │   ├── config
+    └── presentation
+        ├── dto
+        └── rest
 
-### 🌐 Endpoints
+---
 
-Todos los endpoints de AlertIT están bajo:
-    
+
+## 🌐 Endpoints
+
+
+Base path: 
+
     /api/v1/weather
 
-1. **Obtener clima actual**
+#### Obtener clima actual
 
-* GET:
+    GET /current?location=Bahia+Blanca
 
-          /current?location=Bahia+Blanca
+Respuesta:
 
-* Parámetro: location (nombre de la ciudad o ubicación)
-* Respuesta: WeatherData con información actual del clima
 
-      {
-          "temperature": 21.3,
-          "condition": "Soleado",
-          "location": "Bahia Blanca",
-          "region": "Buenos Aires",
-          "humidity": 56,
-          "windSpeed": 8.3,
-          "extremeTemperature": false
-      }
+    {
+        "temperature": 21.3,
+        "condition": "Soleado",
+        "location": "Bahia Blanca",
+        "region": "Buenos Aires",
+        "humidity": 56,
+        "windSpeed": 8.3,
+        "extremeTemperature": false
+    }
 
-2. **Obtener coordenadas de una dirección (geocoding)**
+#### Obtener coordenadas (Geocoding)
 
-* **GET** 
+    GET /geocoding?location=Bahía Blanca
 
-      /geocoding?location=Bahía Blanca
+Respuesta:
 
-* Parámetro: address (dirección a geolocalizar)
-* Respuesta: GeocodingData con latitud y longitud 
+    {
+        "latitude": -38.72,
+        "longitude": -62.28,
+        "formattedAddress": "Bahia Blanca, Argentina",
+        "city": "Bahia Blanca",
+        "region": "Buenos Aires",
+        "country": "Argentina",
+        "validLocation": true
+    }
 
-        {
-          "latitude": -38.72,
-          "longitude": -62.28,
-          "formattedAddress": "Bahia Blanca, Argentina",
-          "city": "Bahia Blanca",
-          "region": "Buenos Aires",
-          "country": "Argentina",
-          "validLocation": true
-        }
+#### Procesar alerta para una ubicación
 
-3. **Procesar alerta para una ubicación**
+    GET /alert?location=Bahía Blanca
 
-* **GET** 
+Respuesta:
 
-       /alert?location=Bahía Blanca
-
-* Parámetro: address (dirección a evaluar)
-* Respuesta: Map<String, Object> con:
-
-        {
-            "alertasActivas": [],
-            "recomendaciones": [],
-            "clima": {
+    {
+        "alertasActivas": [],
+        "recomendaciones": [],
+        "clima": {
             "temperature": 21.3,
             "condition": "Soleado",
             "location": "Bahia Blanca",
@@ -193,9 +236,25 @@ Todos los endpoints de AlertIT están bajo:
         "fuente": "Sistema de Alertas - Criterios Bahía Blanca",
         "resumen": "Sin alertas meteorológicas activas.",
         "timestamp": "2025-11-29T16:53:33.417009700"
-        }
+    }
+
+---
+
+### 🧪 Testing (en progreso)
+La arquitectura fue diseñada desde el inicio para permitir:
+* Tests unitarios del dominio
+* Mock de APIs externas
+* Pruebas aisladas de reglas de negocio
+
+***📌 Implementación planificada con JUnit y Mockito.***
+
+---
 
 ### ⚡ Estado del proyecto
 
-- En desarrollo.
-- Próximamente: testing automatizado y contenedorización con Docker.
+#### 🚧 En desarrollo activo
+
+Próximos pasos:
+- Tests automatizados
+- Dockerización
+- Configuración por perfiles (dev / prod)
